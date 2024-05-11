@@ -3,9 +3,9 @@ package entity
 import "errors"
 
 type Temperature struct {
-	TempC float32
-	TempF float32
-	TempK float32
+	TempC float32 `json:"temp_c"`
+	TempF float32 `json:"temp_f"`
+	TempK float32 `json:"temp_k"`
 }
 
 func NewTempCelsius(value float32) (*Temperature, error) {

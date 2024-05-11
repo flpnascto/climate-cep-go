@@ -21,10 +21,7 @@ func NewCep(value string) (*Cep, error) {
 }
 
 func (c *Cep) isValid() error {
-	// re := regexp.MustCompile("[^0-9]+")
-	// c.Value = re.ReplaceAllString(c.Value, "")
 	c.clean()
-	fmt.Println("c -> isValid: ", c)
 	if len(c.Value) != 8 {
 		return errors.New("invalid cep value")
 	}
