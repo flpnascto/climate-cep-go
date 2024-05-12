@@ -2,12 +2,12 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"net/url"
 	"strings"
 
+	"github.com/flpnascto/climate-cep-go/configs"
 	"github.com/flpnascto/climate-cep-go/internal/entity"
 )
 
@@ -47,7 +47,6 @@ func main() {
 		parts := strings.Split(r.URL.Path, "/")
 
 		cepQuery := parts[len(parts)-1]
-		fmt.Println(cepQuery)
 		cep, err := entity.NewCep(cepQuery)
 		if err != nil {
 			http.Error(w, "invalid zipcode", http.StatusUnprocessableEntity)
@@ -101,12 +100,17 @@ func fetchCepApi(c *entity.Cep) (*string, error) {
 }
 
 func fetchWeatherApi(city string) (entity.Temperature, error) {
+	configs, err := configs.LoadConfig(".")
+	if err != nil {
+		panic(err)
+	}
+
 	baseUrl := "https://api.weatherapi.com/v1"
 	endpoint := "/current.json?"
-	key := "key=ce2dd11568544c218a2174947241105"
+	key := "key=" + configs.WeatherApiKey
 	city = "&q=" + city
 	url := baseUrl + endpoint + key + city
-	fmt.Println(url)
+
 	res, err := http.Get(url)
 	if err != nil {
 		return entity.Temperature{}, err
