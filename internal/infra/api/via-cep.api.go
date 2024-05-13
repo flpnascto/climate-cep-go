@@ -2,6 +2,7 @@ package api
 
 import (
 	"encoding/json"
+	"errors"
 	"io"
 	"net/http"
 
@@ -19,6 +20,7 @@ type CepApiResponse struct {
 	Gia         string `json:"gia"`
 	Ddd         string `json:"ddd"`
 	Siafi       string `json:"siafi"`
+	Erro        bool   `json:"erro"`
 }
 
 func FetchCepApi(c *entity.Cep) (*string, error) {
@@ -37,6 +39,9 @@ func FetchCepApi(c *entity.Cep) (*string, error) {
 	err = json.Unmarshal(body, &result)
 	if err != nil {
 		panic(err)
+	}
+	if result.Erro {
+		return nil, errors.New("CEP not found")
 	}
 
 	return &result.Localidade, nil
