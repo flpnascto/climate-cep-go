@@ -9,7 +9,7 @@ type Temperature struct {
 }
 
 func NewTempCelsius(value float32) (*Temperature, error) {
-	if value <= -273.15 {
+	if value < -273.15 {
 		return nil, errors.New("invalid celsius value")
 	}
 	temp := &Temperature{
