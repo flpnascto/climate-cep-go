@@ -3,6 +3,7 @@ module github.com/flpnascto/climate-cep-go
 go 1.22.0
 
 require (
+	github.com/joho/godotenv v1.5.1
 	github.com/spf13/viper v1.18.2
 	github.com/stretchr/testify v1.9.0
 )
